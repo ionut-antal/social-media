@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import LogInPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
+import NewsfeedPage from "./pages/Newsfeed";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(undefined);
+
+  function handleLogIn(userInfo) {
+    setLoggedIn(true);
+    setUser(userInfo);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <LogInPage loggedIn={loggedIn} handleLogIn={handleLogIn} />
+        </Route>
+        <Route path="/register">
+          <RegisterPage />
+        </Route>
+        <Route path="/newsfeed">
+          <NewsfeedPage user={user} />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
